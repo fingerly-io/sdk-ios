@@ -15,7 +15,7 @@ Or in `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/fingerly-io/sdk-ios", from: "0.1.0"),
+    .package(url: "https://github.com/fingerly-io/sdk-ios", from: "0.2.0"),
 ],
 targets: [
     .target(
@@ -40,6 +40,15 @@ let result = try await fingerly.identify(tag: "checkout")
 ```
 
 Use a publishable SDK key from the dashboard. Secret keys are refused.
+
+## Privacy
+
+Nothing is collected until your app grants consent. The SDK reads no device
+configuration, no advertising or vendor identifier, and nothing outside your
+app's container; it never identifies the device from what it measures. Its
+privacy manifest ships inside the framework. [PRIVACY.md](PRIVACY.md) lists
+what is sent, the App Store privacy answers, text for your privacy policy and
+the `FingerlyPersistAcrossReinstall` option.
 
 ## Documentation
 
