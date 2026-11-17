@@ -10,7 +10,7 @@ In a `Package.swift`, depend on the package and name its product. The package's
 identity comes from the URL, so it is `sdk-ios`:
 
 ```swift
-.package(url: "https://github.com/fingerly-io/sdk-ios", from: "0.3.0")
+.package(url: "https://github.com/fingerly-io/sdk-ios", from: "0.4.0")
 ```
 
 ```swift

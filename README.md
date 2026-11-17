@@ -32,7 +32,7 @@ This is a binary distribution: the package here points at a compiled XCFramework
 
    ```swift
    dependencies: [
-       .package(url: "https://github.com/fingerly-io/sdk-ios", from: "0.3.0"),
+       .package(url: "https://github.com/fingerly-io/sdk-ios", from: "0.4.0"),
    ],
    targets: [
        .target(
