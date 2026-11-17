@@ -1,6 +1,6 @@
 # Fingerly for iOS: privacy and App Store answers
 
-This page covers version 0.2.0. It describes what the SDK collects, what
+This page covers version 0.3.0. It describes what the SDK collects, what
 its privacy manifest declares, and how to answer the App Store privacy
 questions for it. Your app's own data collection is yours to add.
 
@@ -9,10 +9,9 @@ questions for it. Your app's own data collection is yours to add.
 Nothing is collected or sent until your app sets consent to `.granted`. After
 that, each identification sends one report to Fingerly over HTTPS. It contains:
 
-- **A random installation identifier.** By default it is kept in a file inside
-  your app's container, so it is deleted when the app is deleted. It is not
-  derived from the device. See [Reinstall](#reinstall) for the opt-in that
-  keeps it across reinstall.
+- **A random installation identifier.** It is kept in a file inside your
+  app's container, so it is deleted when the app is deleted. It is not derived
+  from the device. See [Reinstall](#reinstall).
 - **Install facts:** how many times the app has launched, and the install's
   age in hours. The app container's age is sent in whole days.
 - **Device and OS facts for integrity checks:** the model identifiers, OS
@@ -22,7 +21,9 @@ that, each identification sends one report to Fingerly over HTTPS. It contains:
   - whether a passcode is set, and why biometry is unusable when it is;
   - whether the accelerometer and gyroscope exist;
   - the TLS certificate chain the device sees for Fingerly's API;
-  - App Attest evidence, when your app has the capability.
+  - App Attest evidence, when your app has the capability;
+  - DeviceCheck tokens, only when your Fingerly project has DeviceCheck
+    switched on and the server asks for them.
 - **Network facts:** the transport (Wi-Fi, cellular or wired), the interface
   types in use, whether a proxy is configured, and how many cellular services
   are active. No IP address, MAC address or carrier is read on the device.
@@ -95,47 +96,23 @@ Text you can adapt for your privacy policy, which Guideline 5.1.1(i) asks for:
 
 ## Reinstall
 
-By default the installation identifier lives exactly as long as the app.
-Deleting the app deletes it, and a reinstall starts a new identifier that
-nothing links to the old one. The record is excluded from backups and never
-moves to another device. To detect reinstall abuse, prefer Apple's own
-signals: the App Attest risk metric and DeviceCheck.
-
-On tvOS, which gives apps no persistent storage outside a purgeable cache, no
-identifier is kept by default: the `identity` check reports `unsupported`
-rather than a new identifier on every launch.
-
-If you need one installation identifier across reinstalls on the same device,
-add this to your app's `Info.plist`:
-
-```xml
-<key>FingerlyPersistAcrossReinstall</key>
-<true/>
-```
-
-The record then lives in the keychain, where it stays after the app is
-deleted. This option is a stopgap until DeviceCheck is available through
-Fingerly, and it may be deprecated then. If you turn it on:
-
-- Say so in your privacy policy, for example: "Fingerly stores a random
-  installation identifier in the device's keychain and sends it to Fingerly
-  with each fraud-check report, so that [App name] can recognise a reinstall
-  on the same device. Deleting the app does not delete it. [App name] deletes
-  it when you delete your account or ask [App name] to."
-- Call `Fingerly.deleteStoredIdentity()` when an account is deleted or an
-  erasure request arrives.
+The installation identifier lives exactly as long as the app. Deleting the app
+deletes it, and a reinstall starts a new identifier that nothing links to the
+old one. The record is excluded from backups and never moves to another
+device. To detect reinstall abuse, use Apple's own signals: the App Attest risk
+metric and DeviceCheck.
 
 ## Erasure
 
-`Fingerly.deleteStoredIdentity()` deletes the installation record in both
-places it can be kept. It needs no client and works whatever the consent state
+`Fingerly.deleteStoredIdentity()` deletes the installation record and the
+local App Attest key state from your app's container. It needs no client and works whatever the consent state
 is. The next consented identification starts a new, unlinked identifier. Ask
 Fingerly support to delete server-side data for an installation identifier.
 
 ## Verifying the framework
 
-Every release from 0.2.0 onwards is meant to be signed with Fingerly's Apple
-Distribution certificate. Until the certificate is in place, a release can
-ship unsigned. To check a signed release, select `Fingerly.xcframework` in
+Every release is signed with Fingerly's Apple Distribution certificate, and
+every install path refuses a framework that is not signed by Fingerly's team.
+To check it yourself, select `Fingerly.xcframework` in
 Xcode's project navigator. The inspector names the team that signed it. Xcode
 refuses an update signed by anyone else.
