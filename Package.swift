@@ -18,8 +18,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "Fingerly",
-            url: "https://maven.fingerly.io/ios/Fingerly-0.4.0.xcframework.zip",
-            checksum: "962dcded8374e162a095c9373d7044e66532a327a002889347c547868cc64460"
+            url: "https://maven.fingerly.io/ios/Fingerly-0.4.1.xcframework.zip",
+            checksum: "74bb15a4b72b55524f4d2cb8567037c7f76088747bb5c866dfee61eb5f7d056e"
         ),
     ]
 )

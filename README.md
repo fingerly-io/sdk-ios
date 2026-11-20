@@ -32,7 +32,7 @@ This is a binary distribution: the package here points at a compiled XCFramework
 
    ```swift
    dependencies: [
-       .package(url: "https://github.com/fingerly-io/sdk-ios", from: "0.4.0"),
+       .package(url: "https://github.com/fingerly-io/sdk-ios", from: "0.4.1"),
    ],
    targets: [
        .target(
@@ -49,7 +49,7 @@ This is a binary distribution: the package here points at a compiled XCFramework
    ```swift
    import Fingerly
 
-   // Only once you have consent or another lawful basis.
+   // Only once you have consent (or know none is required).
    let fingerly = try await Fingerly.load(apiKey: "fly_pk_production_...", consent: .granted)
    let result = try await fingerly.identify(tag: "checkout")
 

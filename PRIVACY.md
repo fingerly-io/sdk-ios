@@ -1,6 +1,6 @@
 # Fingerly for iOS: privacy and App Store answers
 
-This page covers version 0.4.0. It describes what the SDK collects, what
+This page covers version 0.4.1. It describes what the SDK collects, what
 its privacy manifest declares, and how to answer the App Store privacy
 questions for it. Your app's own data collection is yours to add.
 
